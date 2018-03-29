@@ -1,0 +1,33 @@
+Package: superEnhancerModelR
+Type: Package
+Title: superEnhancerModelR
+Version: 0.1.0
+Author: Noah Dukler<ndukler@cshl.edu>
+Maintainer: Noah Dukler<ndukler@cshl.edu>
+Description: More about what it does (maybe more than one line)
+    Use four spaces when indenting paragraphs within the Description.
+License: GPL-2
+Encoding: UTF-8
+LazyData: true
+ByteCompile: true
+Imports:
+  ggplot2,
+  DEoptim,
+  reshape2
+Suggests: testthat
+RoxygenNote: 6.0.1
+Collate: 
+    'enhancerDataObject-class.R'
+    'bic.R'
+    'computeActivity.R'
+    'errorIntervals.R'
+    'll.R'
+    'myLog.R'
+    'optim.R'
+    'optimDE.R'
+    'optimizeModel.R'
+    'package.R'
+    'plotModel.R'
+    'predictExpression.R'
+    'rngErrorParameters.R'
+    'rngLinkParameters.R'
