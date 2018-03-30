@@ -66,8 +66,14 @@ You can also view the model residuals
 plotResiduals(independent.loci)
 ```
 
-Lastly, you can can calculate the bayesian information criterion (BIC), and use it for comparing two or more models.
+
+Say we want to test whether E1 and E2 interact. Then we augment the independent model with an interaction term (E1*E2), fit it, and compare their respective bayesian information criterions (BIC). Lower BIC indicates a better model.
 
 ```{r}
-  bic(independent.loci)
+actFun2 = formula(~E1+E2+E1*E2)
+dependent.loci = enhancerDataObject(expression,design,actFun2,errorModel="lognormal",linkFunction="logistic")
+dependent.loci=optimDE(dependent.loci,maxit=300,refine=TRUE)
+paste("The BIC for the interacting loci model is:",bic(dependent.loci))
+paste("The BIC for the independent loci model is:",bic(independent.loci))
 ```
+
