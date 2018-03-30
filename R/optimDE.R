@@ -6,6 +6,8 @@ methods::setGeneric("optimDE", function(x,...) {
 #'
 #' Runs differential evolution optimization method on enhancer model
 #' @param x enhancerDataObject
+#' @param maxit the number of generations run
+#' @param refine if TRUE, run gradient descent on the best solution from the evolutionary algorithm
 #' @name optimMod
 #' @include enhancerDataObject-class.R
 #' @examples
@@ -35,8 +37,8 @@ methods::setMethod("optimDE", signature(x = "enhancerDataObject"), function(x,ma
 
   if(refine){
     best=optimGD(x,restarts=1,refine=FALSE)
-    x@linkFunction$value[names(x@linkFunction$value)]=best$par[names(x@linkFunction$value)]
-    x@errorModel$value[names(x@errorModel$value)]=best$par[names(x@errorModel$value)]
+    x@linkFunction$value=best@linkFunction$value
+    x@errorModel$value=best@errorModel$value
   }
   return(x)
 })
