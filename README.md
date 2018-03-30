@@ -7,4 +7,4 @@ devtools::install_github("ndukler/superEnhancerModelR")
 
 To build the included vignette, use:
 
-devtools::install_github("ndukler/superEnhancerModelR", build_vingettes = TRUE )
+devtools::install_github("ndukler/superEnhancerModelR", build_vignettes = TRUE)
