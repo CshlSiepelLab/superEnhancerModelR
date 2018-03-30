@@ -18,7 +18,7 @@ Suggests: testthat,
     knitr,
     rmarkdown
 RoxygenNote: 6.0.1
-Collate:
+Collate: 
     'enhancerDataObject-class.R'
     'bic.R'
     'computeActivity.R'
@@ -30,6 +30,7 @@ Collate:
     'optimizeModel.R'
     'package.R'
     'plotModel.R'
+    'plotResiduals.R'
     'predictExpression.R'
     'rngErrorParameters.R'
     'rngLinkParameters.R'

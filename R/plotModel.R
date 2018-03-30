@@ -6,7 +6,7 @@ methods::setGeneric("plotModel", function(x,...) {
 #'
 #' Plots data and model prediction
 #' @param x enhancerDataObject
-#' @name optimMod
+#' @name plotModel
 #' @include enhancerDataObject-class.R
 #' @examples
 #'

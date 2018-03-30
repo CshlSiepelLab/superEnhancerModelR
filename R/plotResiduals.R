@@ -11,7 +11,7 @@ methods::setGeneric("plotResiduals", function(x,...) {
 #' @examples
 #'
 #' @export
-methods::setMethod("plotResiduals", signature(x = "enhancerDataObject"),plotModel <- function(x){
+methods::setMethod("plotResiduals", signature(x = "enhancerDataObject"),plotResiduals <- function(x){
   ## Get names of active enhancers for each experiment
   indiv.enhancers=grep(x = colnames(x@designMatrix),pattern = ")|:",invert = TRUE)
   rname=apply(x@designMatrix,1, function(z) paste(colnames(x@designMatrix)[indiv.enhancers][as.logical(z[indiv.enhancers])],collapse = "/"))

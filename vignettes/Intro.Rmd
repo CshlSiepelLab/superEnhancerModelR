@@ -57,8 +57,13 @@ independent.loci=optimDE(independent.loci,maxit=300,refine=TRUE)
 
 Once you have a fitted model you can plot the data and the predicted model
 
-```{r,fig.show='hold'}
+```{r,fig.show='hold',fig.height = 6, fig.width = 7}
 plotModel(independent.loci)
+```
+
+You can also view the model residuals
+```{r,fig.show='hold',fig.height = 6, fig.width = 7}
+plotResiduals(independent.loci)
 ```
 
 Lastly, you can can calculate the bayesian information criterion (BIC), and use it for comparing two or more models.

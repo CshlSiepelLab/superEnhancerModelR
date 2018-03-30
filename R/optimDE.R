@@ -1,4 +1,4 @@
-methods::setGeneric("optimDE", function(x,...) {
+methods::setGeneric("optimDE", function(x,maxit,refine) {
   standardGeneric("optimDE")
 })
 
@@ -8,7 +8,7 @@ methods::setGeneric("optimDE", function(x,...) {
 #' @param x enhancerDataObject
 #' @param maxit the number of generations run
 #' @param refine if TRUE, run gradient descent on the best solution from the evolutionary algorithm
-#' @name optimMod
+#' @name optimDE
 #' @include enhancerDataObject-class.R
 #' @examples
 #' ## Create a test design matrix
