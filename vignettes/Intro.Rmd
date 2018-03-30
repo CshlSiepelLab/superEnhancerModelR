@@ -20,7 +20,7 @@ Linear model is $R(\vect{x}) = e^{A(\vect{x})} + \epsilon$.
 
 Exponential model is $R(\vect x) = e^{A(\vect x)} + \epsilon$.
 
-Logistic model is $R(\vect x)=1/\left(1+e^{-A(\vect{x})}\right)$.
+Logistic model is $R(\vect x)=1/\left(1+e^{-A(\vect{x})}\right)+\epsilon$.
 
 ## Fitting your first model
 
