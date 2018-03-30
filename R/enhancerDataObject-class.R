@@ -94,6 +94,11 @@ enhancerDataObject <- function(expressionData,designInfo,activityFunction,errorM
     lfList$constraints$upper=c(lfList$constraints$upper,scale=scaleParameterBounds[2])
   }
 
+  ## Check for that there are sufficient parameters to fit the model of interest
+  if(length(lfList$value)>nrow(unique(designInfo))){
+    warning("The specified model has more parameters as experimental conditions! The model will not be identifiable.")
+  }
+
   new("enhancerDataObject",expressionData=expressionData,designMatrix=designMatrix,activityFunction=activityFunction,
       errorModel=emList,linkFunction=lfList)
 }
