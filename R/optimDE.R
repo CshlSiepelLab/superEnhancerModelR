@@ -9,6 +9,16 @@ methods::setGeneric("optimDE", function(x,...) {
 #' @name optimMod
 #' @include enhancerDataObject-class.R
 #' @examples
+#' ## Create a test design matrix
+#' design = matrix(c(0,1,0,1,0,0,1,1),nrow=4)
+#' colnames(design) = c("E1","E2")
+#' design = as.data.frame(design)
+#' ## Create fake expression data
+#' expression = c(0,0.2,0.3,0.9)
+#' ## Create activity function
+#' actFun = formula(~E1+E2+E1*E2)
+#' edo = enhancerDataObject(expression,design,actFun)
+#' edo=optimDE(edo,refine=TRUE)
 #'
 #' @export
 methods::setMethod("optimDE", signature(x = "enhancerDataObject"), function(x,maxit=100,refine=FALSE) {

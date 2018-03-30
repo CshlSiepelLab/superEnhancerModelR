@@ -42,6 +42,7 @@ methods::setClass(Class = "enhancerDataObject",
 #' ## Create activity function
 #' actFun = formula(~E1+E2+E1*E2)
 #' edo = enhancerDataObject(expression,design,actFun)
+#'
 #' @export
 enhancerDataObject <- function(expressionData,designInfo,activityFunction,errorModel=c("lognormal","gaussian"),
                                linkFunction=c("additive","exponential","logistic"),activityParameterBounds=c(-10^3,10^3),

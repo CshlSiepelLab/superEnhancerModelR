@@ -6,9 +6,19 @@ methods::setGeneric("optimGD", function(x,...) {
 #'
 #' Runs optimization method on enhancer model
 #' @param x enhancerDataObject
-#' @name optimMod
+#' @name optimGD
 #' @include enhancerDataObject-class.R
 #' @examples
+#' ## Create a test design matrix
+#' design = matrix(c(0,1,0,1,0,0,1,1),nrow=4)
+#' colnames(design) = c("E1","E2")
+#' design = as.data.frame(design)
+#' ## Create fake expression data
+#' expression = c(0,0.2,0.3,0.9)
+#' ## Create activity function
+#' actFun = formula(~E1+E2+E1*E2)
+#' edo = enhancerDataObject(expression,design,actFun)
+#' edo=optimGD(edo,restarts=50)
 #'
 #' @export
 methods::setMethod("optimGD", signature(x = "enhancerDataObject"), function(x,restarts=200,method=NULL,maxit=NULL,refine=FALSE) {
