@@ -1,0 +1,68 @@
+---
+title: "Introduction to fitting statistical models to collections of enhancers"
+author: "Noah Dukler"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+\newcommand{\vect}[1]{\boldsymbol{\mathbf{#1}}}
+
+## Statistical models for super-enhancers
+
+Activity model is $A(\vect{x}) = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \cdots + \beta_n
+x_n$.
+
+Linear model is $R(\vect{x}) = e^{A(\vect{x})} + \epsilon$.
+
+Exponential model is $R(\vect x) = e^{A(\vect x)} + \epsilon$.
+
+Logistic model is $R(\vect x)=1/\left(1+e^{-A(\vect{x})}\right)$.
+
+## Fitting your first model
+
+To start fitting statistical models to your enhancer data you need to format your data in a particular way. First you need to place information about which enhancers are present in each experiment in a data.frame where each row is an experiment and each column is an enhancer element. Here's a simple example:
+
+```{r}
+design = matrix(c(0,1,0,1,0,0,1,1),nrow=4)
+colnames(design) = c("E1","E2")
+design=as.data.frame(design)
+print(design)
+```
+
+Then we need a vector of normalized expression values, with each element of the vector corresponding to one row of thme previous data frame.
+
+```{r}
+## Create "expression data""
+expression = c(10,200,300,900)
+print(expression)
+```
+
+Once we have both expression values and a design matrix, we can construct an enhancerDataObject. This object holds the raw data, the design of each experiment, and detail of the statistical model that you want to fit. You can specify the link function: additive, exponential, or logistic (from Dukler et al., 2017). You can also specify an error model: gaussian, or lognormal. Upper and lower bounds for all parameters can also be specified although we will leave them at the defualts for now. We specify a model with a logistic link function, lognormal error, and non-interacting enhancer loci as follows:
+
+```{r}
+library(superEnhancerModelR)
+## Create activity function
+actFun = formula(~E1+E2)
+independent.loci = enhancerDataObject(expression,design,actFun,errorModel="lognormal",linkFunction="logistic")
+```
+
+This model can then be fit using a differential evolutionary algorithm and refined with gradient descent:
+```{r}
+independent.loci=optimDE(independent.loci,maxit=300,refine=TRUE)
+```
+
+Once you have a fitted model you can plot the data and the predicted model
+
+```{r,fig.show='hold'}
+plotModel(independent.loci)
+```
+
+Lastly, you can can calculate the bayesian information criterion (BIC), and use it for comparing two or more models.
+
+```{r}
+  bic(independent.loci)
+```

@@ -14,9 +14,11 @@ Imports:
   ggplot2,
   DEoptim,
   reshape2
-Suggests: testthat
+Suggests: testthat,
+    knitr,
+    rmarkdown
 RoxygenNote: 6.0.1
-Collate: 
+Collate:
     'enhancerDataObject-class.R'
     'bic.R'
     'computeActivity.R'
@@ -31,3 +33,4 @@ Collate:
     'predictExpression.R'
     'rngErrorParameters.R'
     'rngLinkParameters.R'
+VignetteBuilder: knitr
