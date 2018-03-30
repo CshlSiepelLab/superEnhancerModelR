@@ -76,4 +76,10 @@ dependent.loci=optimDE(dependent.loci,maxit=300,refine=TRUE)
 paste("The BIC for the interacting loci model is:",bic(dependent.loci))
 paste("The BIC for the independent loci model is:",bic(independent.loci))
 ```
+The significance of a difference in bayes factor can be interperted using this table
+```{r,echo=FALSE}
+bic.tab=data.frame(delta_bic=c("0 to 2","2 to 6","6 to 10",">10"),Evidence=c("Not worth more than a bare mention","Positive","Strong","Very Strong"))
+colnames(bic.tab)=c("$\\Delta BIC$","Evidence against higher BIC")
+knitr::kable(bic.tab, booktabs = TRUE, escape = FALSE)
+```
 
