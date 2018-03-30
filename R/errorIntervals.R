@@ -27,7 +27,7 @@ methods::setMethod("errorIntervals", signature(x = "enhancerDataObject"), functi
   } else if(x@errorModel$type=="gaussian"){
     for(q in quantiles){
       err[[as.character(q)]]=data.frame(x=c(activity,rev(activity)),
-                                        y=c(qlnorm(q, express, x@errorModel$value[1]),
+                                        y=c(qnorm(q, express, x@errorModel$value[1]),
                                             rev(qnorm(1-q, express, x@errorModel$value[1]))),
                                         Quantile=paste0(q,"-",1-q))
     }
