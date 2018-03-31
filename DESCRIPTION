@@ -22,6 +22,7 @@ Collate:
     'enhancerDataObject-class.R'
     'bic.R'
     'computeActivity.R'
+    'computeParamPvals.R'
     'errorIntervals.R'
     'll.R'
     'myLog.R'
