@@ -1,4 +1,4 @@
-methods::setGeneric("optimDE", function(x,maxit,refine) {
+methods::setGeneric("optimDE", function(x,maxit,refine=TRUE) {
   standardGeneric("optimDE")
 })
 
@@ -23,7 +23,7 @@ methods::setGeneric("optimDE", function(x,maxit,refine) {
 #' edo=optimDE(edo,refine=TRUE)
 #'
 #' @export
-methods::setMethod("optimDE", signature(x = "enhancerDataObject"), function(x,maxit=100,refine=FALSE) {
+methods::setMethod("optimDE", signature(x = "enhancerDataObject"), function(x,maxit=100,refine=TRUE) {
   opt=list(fn = optimizeModel,object=x)
   opt[["lower"]]=c(x@linkFunction$constraints$lower,x@errorModel$constraints$lower)
   opt[["upper"]]=c(x@linkFunction$constraints$upper,x@errorModel$constraints$upper)
