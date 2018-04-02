@@ -24,4 +24,4 @@
 #'   \item{E*}{The 0/1 (absence/presence) coding for each enhancer}
 #' }
 #' @source \url{http://www.nature.com/ng/journal/vaop/ncurrent/full/ng.3605.html}
-"alpha.globin"
+"alphaGlobin"
