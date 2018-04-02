@@ -51,7 +51,7 @@ independent.loci = enhancerDataObject(expression,design,actFun,errorModel="logno
 
 This model can then be fit using a differential evolutionary algorithm and refined with gradient descent (note that this step could be run with more iterations.):
 ```{r}
-independent.loci=optimDE(independent.loci,maxit=500,refine=TRUE)
+independent.loci=optimDE(independent.loci,maxit=600,refine=TRUE)
 ```
 
 Once you have a fitted model you can plot the data and the predicted model
@@ -71,7 +71,7 @@ Say we want to test whether E1 and E2 interact. Then we augment the independent 
 ```{r,fig.height = 6, fig.width = 7}
 actFun2 = formula(~E1+E2+E1*E2)
 dependent.loci = enhancerDataObject(expression,design,actFun2,errorModel="lognormal",linkFunction="logistic")
-dependent.loci=optimDE(dependent.loci,maxit=300,refine=TRUE)
+dependent.loci=optimDE(dependent.loci,maxit=600,refine=TRUE)
 plotModel(dependent.loci)
 ```
 Then we can compare their respective Bayesian information criterion (BIC). Lower BIC indicates a better model.
@@ -90,7 +90,7 @@ knitr::kable(bic.tab, booktabs = TRUE, escape = FALSE)
 If you want p-values for individual coefficients, run the function computeParamPvals and it will calculate the significance of the each parameter via the likelihood-ratio test.  
 
 ```{r}
-param.stats=computeParamPvals(independent.loci,maxit=500)
+param.stats=computeParamPvals(independent.loci,maxit=600)
 param.stats$pVals
 ```
 
