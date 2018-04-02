@@ -24,35 +24,34 @@ Logistic model is $R(\vect x)=1/\left(1+e^{-A(\vect{x})}\right)+\epsilon$.
 
 ## Fitting your first model
 
-To start fitting statistical models to your enhancer data you need to format your data in a particular way. First you need to place information about which enhancers are present in each experiment in a data.frame where each row is an experiment and each column is an enhancer element. Here's a simple example:
-
-```{r}
-design = matrix(c(0,1,0,1,0,0,1,1),nrow=4)
-colnames(design) = c("E1","E2")
-design=as.data.frame(design)
-print(design)
-```
-
-Then we need a vector of normalized expression values, with each element of the vector corresponding to one row of thme previous data frame.
-
-```{r}
-## Create "expression data""
-expression = c(10,200,300,900)
-print(expression)
-```
-
-Once we have both expression values and a design matrix, we can construct an enhancerDataObject. This object holds the raw data, the design of each experiment, and detail of the statistical model that you want to fit. You can specify the link function: additive, exponential, or logistic (from Dukler et al., 2017). You can also specify an error model: gaussian, or lognormal. Upper and lower bounds for all parameters can also be specified although we will leave them at the defualts for now. We specify a model with a logistic link function, lognormal error, and non-interacting enhancer loci as follows:
+To start fitting statistical models to your enhancer data you need to format your data in a particular way. First you need to place information about which enhancers are present in each experiment in a data.frame where each row is an experiment and each column is an enhancer element. Here's a simple example using the data from Shin et al. (2015):
 
 ```{r}
 library(superEnhancerModelR)
+data("wap")
+design = wap[,c(3:5)]
+head(design)
+```
+
+Then we need a vector of normalized expression values, with each element of the vector corresponding to one row of the previous data frame.
+
+```{r}
+## Create "expression data""
+expression = wap[,2]
+print(head(expression))
+```
+
+Once we have both expression values and a design matrix, we can construct an enhancerDataObject. This object holds the raw data, the design of each experiment, and detail of the statistical model that you want to fit. You can specify the link function: additive, exponential, or logistic (from Dukler et al., 2017). You can also specify an error model: Gaussian, or log-normal. Upper and lower bounds for all parameters can also be specified although we will leave them at the defaults for now. We specify a model with a logistic link function, log-normal error, and non-interacting enhancer loci as follows:
+
+```{r}
 ## Create activity function
-actFun = formula(~E1+E2)
+actFun = formula(~E1+E2+E3)
 independent.loci = enhancerDataObject(expression,design,actFun,errorModel="lognormal",linkFunction="logistic")
 ```
 
-This model can then be fit using a differential evolutionary algorithm and refined with gradient descent:
+This model can then be fit using a differential evolutionary algorithm and refined with gradient descent (note that this step could be run with more iterations.):
 ```{r}
-independent.loci=optimDE(independent.loci,maxit=300,refine=TRUE)
+independent.loci=optimDE(independent.loci,maxit=500,refine=TRUE)
 ```
 
 Once you have a fitted model you can plot the data and the predicted model
@@ -67,16 +66,21 @@ plotResiduals(independent.loci)
 ```
 
 
-Say we want to test whether E1 and E2 interact. Then we augment the independent model with an interaction term (E1*E2), fit it, and compare their respective bayesian information criterions (BIC). Lower BIC indicates a better model.
+Say we want to test whether E1 and E2 interact. Then we augment the independent model with an interaction term (E1*E2), and fit it. We can view the fitted interaction model in the same way we viewed the independent loci model.
 
-```{r}
+```{r,fig.height = 6, fig.width = 7}
 actFun2 = formula(~E1+E2+E1*E2)
 dependent.loci = enhancerDataObject(expression,design,actFun2,errorModel="lognormal",linkFunction="logistic")
 dependent.loci=optimDE(dependent.loci,maxit=300,refine=TRUE)
+plotModel(dependent.loci)
+```
+Then we can compare their respective Bayesian information criterion (BIC). Lower BIC indicates a better model.
+```{r}
 paste("The BIC for the interacting loci model is:",bic(dependent.loci))
 paste("The BIC for the independent loci model is:",bic(independent.loci))
 ```
-The significance of a difference in bayes factor can be interperted using this table
+
+The significance of a difference in Bayes factor can be interpreted using this table.
 ```{r,echo=FALSE}
 bic.tab=data.frame(delta_bic=c("0 to 2","2 to 6","6 to 10",">10"),Evidence=c("Not worth more than a bare mention","Positive","Strong","Very Strong"))
 colnames(bic.tab)=c("$\\Delta BIC$","Evidence against higher BIC")
@@ -86,7 +90,7 @@ knitr::kable(bic.tab, booktabs = TRUE, escape = FALSE)
 If you want p-values for individual coefficients, run the function computeParamPvals and it will calculate the significance of the each parameter via the likelihood-ratio test.  
 
 ```{r}
-param.stats=computeParamPvals(independent.loci,maxit=300)
+param.stats=computeParamPvals(independent.loci,maxit=500)
 param.stats$pVals
 ```
 
