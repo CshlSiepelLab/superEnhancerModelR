@@ -13,6 +13,11 @@ methods::setGeneric("computeParamPvals", function(x,threads=1,...) {
 #' @param ... all aditional parameters to be passed to optimizer function \code{\link{optimDE}}
 #' @name computeParamPvals
 #' @include enhancerDataObject-class.R
+#' @return A list with two elements:
+#' \itemize{
+#'   \item{pVals: A table of the coefficient p-values}
+#'   \item{reducedModels: Refitted reduced models used to estimate the p-values}
+#' }
 #'
 #' @examples
 #' ## Create a test design matrix
@@ -40,17 +45,17 @@ methods::setMethod("computeParamPvals", signature(x = "enhancerDataObject"), fun
       warning("Multiple threads were specified but doParallel is not installed. Running in single threaded mode.")
     for(i in 1:ncol(x@designMatrix)){
       write(paste("Fitting reduced model without term",colnames(x@designMatrix)[i]),stdout())
-      reduced.model=x
-      if(colnames(x@designMatrix)[i]=="(Intercept)"){
+      rModelList[[colnames(x@designMatrix)[i]]]=x
+      if(colnames(x@designMatrix)[i]!="(Intercept)"){
         reduced.formula=update.formula(full.formula, formula(paste0(". ~ . -",colnames(x@designMatrix)[i])))
       } else {
         reduced.formula=update.formula(full.formula, formula(". ~ . +0"))
       }
       ## Replace function and drop column from design matrix
-      reduced.model@activityFunction=reduced.formula
-      reduced.model@designMatrix=reduced.model@designMatrix[,-i]
+      rModelList[[colnames(x@designMatrix)[i]]]@activityFunction=reduced.formula
+      rModelList[[colnames(x@designMatrix)[i]]]@designMatrix=rModelList[[colnames(x@designMatrix)[i]]]@designMatrix[,-i]
       ## Refit model and save
-      rModelList[[colnames(x@designMatrix)[i]]]=optimDE(x,...)
+      rModelList[[colnames(x@designMatrix)[i]]]=optimDE(rModelList[[colnames(x@designMatrix)[i]]],...)
     }
   }
   ## Compute log-likelihoods

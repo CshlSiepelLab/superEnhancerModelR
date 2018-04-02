@@ -82,3 +82,11 @@ bic.tab=data.frame(delta_bic=c("0 to 2","2 to 6","6 to 10",">10"),Evidence=c("No
 colnames(bic.tab)=c("$\\Delta BIC$","Evidence against higher BIC")
 knitr::kable(bic.tab, booktabs = TRUE, escape = FALSE)
 ```
+
+If you want p-values for individual coefficients, run the function computeParamPvals and it will calculate the significance of the each parameter via the likelihood-ratio test.  
+
+```{r}
+param.stats=computeParamPvals(independent.loci,maxit=300)
+param.stats$pVals
+```
+

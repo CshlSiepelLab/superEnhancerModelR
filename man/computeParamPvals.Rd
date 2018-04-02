@@ -10,6 +10,13 @@
 
 \item{...}{all aditional parameters to be passed to optimizer function \code{\link{optimDE}}}
 }
+\value{
+A list with two elements:
+\itemize{
+  \item{pVals: A table of the coefficient p-values}
+  \item{reducedModels: Refitted reduced models used to estimate the p-values}
+}
+}
 \description{
 Computes a p-value for the intercept and each enhancer coefficient in the link function by performing
 likelihood ratio tests between the full model and a reduced model without that coefficient.
