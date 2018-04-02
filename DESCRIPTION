@@ -23,6 +23,7 @@ Collate:
     'bic.R'
     'computeActivity.R'
     'computeParamPvals.R'
+    'data.R'
     'errorIntervals.R'
     'll.R'
     'myLog.R'
