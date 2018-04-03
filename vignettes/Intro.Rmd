@@ -66,14 +66,15 @@ plotResiduals(independent.loci)
 ```
 
 
-Say we want to test whether E1 and E2 interact. Then we augment the independent model with an interaction term (E1*E2), and fit it. We can view the fitted interaction model in the same way we viewed the independent loci model.
+Say we want to test whether E1 and E2 interact. Then we augment the independent model with an interaction term (E1:E2), and fit it. We can view the fitted interaction model in the same way we viewed the independent loci model. In the context of formulas,the "\*" operator produces all combinations of variables. e.g E1\*E2\*E3 produces E1+E2+E3+E1:E2+E1:E3+E2:E3+E1:E2:E3, which it typically too many parameters to fit at once without overfitting. (Note: You can also use the "|" operator which expresses the conditional relationship. e.g. E1|E2 is equivalent to E1|E2==TRUE)
 
 ```{r,fig.height = 6, fig.width = 7}
-actFun2 = formula(~E1+E2+E1*E2)
+actFun2 = formula(~E1+E2+E1:E2)
 dependent.loci = enhancerDataObject(expression,design,actFun2,errorModel="lognormal",linkFunction="logistic")
 dependent.loci=optimDE(dependent.loci,maxit=600,refine=TRUE)
 plotModel(dependent.loci)
 ```
+
 Then we can compare their respective Bayesian information criterion (BIC). Lower BIC indicates a better model.
 ```{r}
 paste("The BIC for the interacting loci model is:",bic(dependent.loci))
