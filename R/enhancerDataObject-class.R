@@ -39,8 +39,8 @@ methods::setClass(Class = "enhancerDataObject",
 #' design = as.data.frame(design)
 #' ## Create fake expression data
 #' expression = c(0,0.2,0.3,0.9)
-#' ## Create activity function
-#' actFun = formula(~E1+E2+E1*E2)
+#' ## Create activity function with independant activity and an interaction for the E1 and E2 enhancers
+#' actFun = formula(~E1+E2+E1:E2)
 #' edo = enhancerDataObject(expression,design,actFun)
 #'
 #' @export
@@ -49,7 +49,7 @@ enhancerDataObject <- function(expressionData,designInfo,activityFunction,errorM
                                errorParameterBounds=c(10^-3,10^3),scaleParameterBounds=c(10^-3,10^3)){
   ## Makes sure that activity function is a string
   if(!inherits(activityFunction,"formula"))
-    stop("activityFormula must be a formula (e.g. \"~E1+E2+E1*E2\")")
+    stop("activityFormula must be a formula (e.g. \"~E1+E2+E1:E2\")")
   if(!is.data.frame(designInfo))
     stop("designInfo must be a data.frame")
   ## Analyze the formula object to ensure that all variable names are column names
