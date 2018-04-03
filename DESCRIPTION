@@ -1,7 +1,7 @@
 Package: superEnhancerModelR
 Type: Package
 Title: superEnhancerModelR
-Version: 0.1.0
+Version: 0.2.0
 Author: Noah Dukler<ndukler@cshl.edu>
 Maintainer: Noah Dukler<ndukler@cshl.edu>
 Description: More about what it does (maybe more than one line)
