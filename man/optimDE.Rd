@@ -6,11 +6,13 @@
 \arguments{
 \item{x}{enhancerDataObject}
 
-\item{maxit}{the number of generations run}
+\item{maxit}{the number of generations run (overrides the value set by control)}
 
 \item{refine}{if TRUE, run gradient descent on the best solution from the evolutionary algorithm}
 
-\item{threads}{integer value for number of threads to use}
+\item{threads}{integer value for number of threads to use (overrides the value set by control)}
+
+\item{control}{A list of control parameters that can be passed to \code{\link[DEoptim]{DEoptim}} (also see \code{\link[DEoptim]{DEoptim.control}})}
 }
 \description{
 Runs differential evolution optimization method on enhancer model

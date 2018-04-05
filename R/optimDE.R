@@ -1,4 +1,4 @@
-methods::setGeneric("optimDE", function(x,maxit,refine=TRUE,threads=1) {
+methods::setGeneric("optimDE", function(x,maxit=100,refine=TRUE,threads=1,control=DEoptim::DEoptim.control()) {
   standardGeneric("optimDE")
 })
 
@@ -6,9 +6,10 @@ methods::setGeneric("optimDE", function(x,maxit,refine=TRUE,threads=1) {
 #'
 #' Runs differential evolution optimization method on enhancer model
 #' @param x enhancerDataObject
-#' @param maxit the number of generations run
+#' @param maxit the number of generations run (overrides the value set by control)
 #' @param refine if TRUE, run gradient descent on the best solution from the evolutionary algorithm
-#' @param threads integer value for number of threads to use
+#' @param threads integer value for number of threads to use (overrides the value set by control)
+#' @param control A list of control parameters that can be passed to \code{\link[DEoptim]{DEoptim}} (also see \code{\link[DEoptim]{DEoptim.control}})
 #' @name optimDE
 #' @include enhancerDataObject-class.R
 #' @examples
@@ -24,11 +25,15 @@ methods::setGeneric("optimDE", function(x,maxit,refine=TRUE,threads=1) {
 #' edo=optimDE(edo,refine=TRUE)
 #'
 #' @export
-methods::setMethod("optimDE", signature(x = "enhancerDataObject"), function(x,maxit=100,refine=TRUE,threads=1) {
+methods::setMethod("optimDE", signature(x = "enhancerDataObject"), function(x,maxit=100,refine=TRUE,threads=1,control=DEoptim::DEoptim.control()) {
   opt=list(fn = optimizeModel,object=x)
   opt[["lower"]]=c(x@linkFunction$constraints$lower,x@errorModel$constraints$lower)
   opt[["upper"]]=c(x@linkFunction$constraints$upper,x@errorModel$constraints$upper)
-  opt$control=list(itermax=maxit,NP=20*length(opt$lower),trace=100)
+  ## Setup control options
+  opt$control=control
+  opt$control$itermax=maxit
+  if(is.na(opt$control$NP)){opt$control$NP=20*length(opt$lower)}
+  ## Setup parallel cluster
   if (threads > 1) {
     if(!requireNamespace("parallel", quietly = TRUE)){
       stop("parallel not installed")
