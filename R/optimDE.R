@@ -8,6 +8,7 @@ methods::setGeneric("optimDE", function(x,maxit,refine=TRUE,threads=1) {
 #' @param x enhancerDataObject
 #' @param maxit the number of generations run
 #' @param refine if TRUE, run gradient descent on the best solution from the evolutionary algorithm
+#' @param threads integer value for number of threads to use
 #' @name optimDE
 #' @include enhancerDataObject-class.R
 #' @examples

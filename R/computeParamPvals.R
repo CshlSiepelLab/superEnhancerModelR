@@ -9,7 +9,7 @@ methods::setGeneric("computeParamPvals", function(x,threads=1,...) {
 #' Can be parallelized if doParallel is installed. NOTE. Make sure your full model is already fit before
 #' running this function!!!
 #' @param x enhancerDataObject
-#' @param threads number of threads to use for refiting, requires doParallel
+#' @param threads number of threads to use for refiting, requires parallel
 #' @param ... all aditional parameters to be passed to optimizer function \code{\link{optimDE}}
 #' @name computeParamPvals
 #' @include enhancerDataObject-class.R

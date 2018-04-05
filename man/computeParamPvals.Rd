@@ -6,7 +6,7 @@
 \arguments{
 \item{x}{enhancerDataObject}
 
-\item{threads}{number of threads to use for refiting, requires doParallel}
+\item{threads}{number of threads to use for refiting, requires parallel}
 
 \item{...}{all aditional parameters to be passed to optimizer function \code{\link{optimDE}}}
 }

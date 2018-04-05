@@ -9,6 +9,8 @@
 \item{maxit}{the number of generations run}
 
 \item{refine}{if TRUE, run gradient descent on the best solution from the evolutionary algorithm}
+
+\item{threads}{integer value for number of threads to use}
 }
 \description{
 Runs differential evolution optimization method on enhancer model
