@@ -113,7 +113,7 @@ orientation.effects=optimDE(orientation.effects,maxit=1500,refine=TRUE)
 
 Then we can compute p-values for each term, if the orientation interaction term is significant, there are orientation effects.
 ```{r,echo=2}
-orientation.param.stats=computeParamPvals(orientation.effects,maxit=2000,threads = 6)
+orientation.param.stats=computeParamPvals(orientation.effects,maxit=2000,threads = 6,list(trace=FALSE))
 orientation.param.stats$pVals
 ```
 
