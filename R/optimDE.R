@@ -1,4 +1,4 @@
-methods::setGeneric("optimDE", function(x,maxit,refine=TRUE) {
+methods::setGeneric("optimDE", function(x,maxit,refine=TRUE,threads=1) {
   standardGeneric("optimDE")
 })
 
@@ -23,17 +23,28 @@ methods::setGeneric("optimDE", function(x,maxit,refine=TRUE) {
 #' edo=optimDE(edo,refine=TRUE)
 #'
 #' @export
-methods::setMethod("optimDE", signature(x = "enhancerDataObject"), function(x,maxit=100,refine=TRUE) {
+methods::setMethod("optimDE", signature(x = "enhancerDataObject"), function(x,maxit=100,refine=TRUE,threads=1) {
   opt=list(fn = optimizeModel,object=x)
   opt[["lower"]]=c(x@linkFunction$constraints$lower,x@errorModel$constraints$lower)
   opt[["upper"]]=c(x@linkFunction$constraints$upper,x@errorModel$constraints$upper)
   opt$control=list(itermax=maxit,NP=20*length(opt$lower),trace=100)
+  if (threads > 1) {
+    if(!requireNamespace("parallel", quietly = TRUE)){
+      stop("parallel not installed")
+    } else {
+      cl <- parallel::makeCluster(threads)
+      opt[["control"]]$cluster=cl
+    }
+  }
 
   ## Run diff. evol. optimization
   best=do.call(DEoptim::DEoptim,args = opt)
   ## Set object parameters equal to parameters from best run
   x@linkFunction$value[names(x@linkFunction$value)]=best$optim$bestmem[names(x@linkFunction$value)]
   x@errorModel$value[names(x@errorModel$value)]=best$optim$bestmem[names(x@errorModel$value)]
+
+  if(!is.null(opt[["control"]]$cluster))
+    parallel::stopCluster(cl)
 
   if(refine){
     best=optimGD(x,restarts=1,refine=FALSE)

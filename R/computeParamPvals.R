@@ -36,27 +36,21 @@ methods::setMethod("computeParamPvals", signature(x = "enhancerDataObject"), fun
   full.ll=ll(x)
   full.formula=x@activityFunction
   ## Check for doParallel
-  if (threads > 1 && requireNamespace("doParallel", quietly = TRUE)) {
-    stop("Parallelization not yet implemented")
-  } else {
-    ## A list to hold all the reduced models
-    rModelList=list()
-    if(threads>1)
-      warning("Multiple threads were specified but doParallel is not installed. Running in single threaded mode.")
-    for(i in 1:ncol(x@designMatrix)){
-      write(paste("Fitting reduced model without term",colnames(x@designMatrix)[i]),stdout())
-      rModelList[[colnames(x@designMatrix)[i]]]=x
-      if(colnames(x@designMatrix)[i]!="(Intercept)"){
-        reduced.formula=update.formula(full.formula, formula(paste0(". ~ . -",colnames(x@designMatrix)[i])))
-      } else {
-        reduced.formula=update.formula(full.formula, formula(". ~ . +0"))
-      }
-      ## Replace function and drop column from design matrix
-      rModelList[[colnames(x@designMatrix)[i]]]@activityFunction=reduced.formula
-      rModelList[[colnames(x@designMatrix)[i]]]@designMatrix=rModelList[[colnames(x@designMatrix)[i]]]@designMatrix[,-i]
-      ## Refit model and save
-      rModelList[[colnames(x@designMatrix)[i]]]=optimDE(rModelList[[colnames(x@designMatrix)[i]]],...)
+  ## A list to hold all the reduced models
+  rModelList = list()
+  for (i in 1:ncol(x@designMatrix)) {
+    write(paste("Fitting reduced model without term",colnames(x@designMatrix)[i]),stdout())
+    rModelList[[colnames(x@designMatrix)[i]]] = x
+    if (colnames(x@designMatrix)[i] != "(Intercept)") {
+      reduced.formula = update.formula(full.formula, formula(paste0(". ~ . -", colnames(x@designMatrix)[i])))
+    } else {
+      reduced.formula = update.formula(full.formula, formula(". ~ . +0"))
     }
+    ## Replace function and drop column from design matrix
+    rModelList[[colnames(x@designMatrix)[i]]]@activityFunction = reduced.formula
+    rModelList[[colnames(x@designMatrix)[i]]]@designMatrix = rModelList[[colnames(x@designMatrix)[i]]]@designMatrix[, -i]
+    ## Refit model and save
+    rModelList[[colnames(x@designMatrix)[i]]] = optimDE(rModelList[[colnames(x@designMatrix)[i]]],threads = threads, ...)
   }
   ## Compute log-likelihoods
   model.ll=unlist(lapply(rModelList,ll))

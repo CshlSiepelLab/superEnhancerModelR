@@ -16,7 +16,8 @@ Imports:
   reshape2
 Suggests: testthat,
     knitr,
-    rmarkdown
+    rmarkdown,
+    parallel
 RoxygenNote: 6.0.1
 Collate: 
     'enhancerDataObject-class.R'
