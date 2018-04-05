@@ -51,7 +51,7 @@ independent.loci = enhancerDataObject(expression,design,actFun,errorModel="logno
 
 This model can then be fit using a differential evolutionary algorithm and refined with gradient descent (note that this step could be run with more iterations.):
 ```{r}
-independent.loci=optimDE(independent.loci,maxit=600,refine=TRUE)
+independent.loci=optimDE(independent.loci,maxit=2000,refine=TRUE,threads = 6,control = list(trace=500))
 ```
 
 Once you have a fitted model you can plot the data and the predicted model. All plot functions return ggplot objects, so if you save them you can manipulate them in exactly the same way.
@@ -66,13 +66,14 @@ You can also view the model residuals
 plotResiduals(independent.loci)
 ```
 
+## Testing for enhancer interactions
 
 Say we want to test whether E1 and E2 interact. Then we augment the independent model with an interaction term (E1:E2), and fit it. We can view the fitted interaction model in the same way we viewed the independent loci model. In the context of formulas,the "\*" operator produces all combinations of variables. e.g E1\*E2\*E3 produces E1+E2+E3+E1:E2+E1:E3+E2:E3+E1:E2:E3, which it typically too many parameters to fit at once without overfitting. (Note: You can also use the "|" operator which expresses the conditional relationship. e.g. E1|E2 is equivalent to E1|E2==TRUE)
 
 ```{r,fig.height = 6, fig.width = 7}
 actFun2 = formula(~E1+E2+E1:E2)
 dependent.loci = enhancerDataObject(expression,design,actFun2,errorModel="lognormal",linkFunction="logistic")
-dependent.loci=optimDE(dependent.loci,maxit=600,refine=TRUE)
+dependent.loci=optimDE(dependent.loci,maxit=2000,refine=TRUE,threads = 6,control = list(trace=FALSE))
 plotModel(dependent.loci)
 ```
 
@@ -89,10 +90,30 @@ colnames(bic.tab)=c("$\\Delta BIC$","Evidence against higher BIC")
 knitr::kable(bic.tab, booktabs = TRUE, escape = FALSE)
 ```
 
-If you want p-values for individual coefficients, run the function computeParamPvals and it will calculate the significance of the each parameter via the likelihood-ratio test.  
+## Deriving coefficient specific p-values
+
+If you want p-values for individual coefficients, run the function computeParamPvals and it will calculate the significance of the each parameter via the likelihood-ratio test. Note that since the model will need to be re-trained for each parameter removed, it is a good idea to set the number of training iterations to be the same as the number used to train the original model.  
 
 ```{r}
-param.stats=computeParamPvals(independent.loci,maxit=600)
+param.stats=computeParamPvals(independent.loci,maxit=2000,threads = 6,control = list(trace=FALSE))
 param.stats$pVals
+```
+
+## Looking at orientation specific effects
+If you're measuring the effects of enhancers in a reporter assay, you may be interested to check if the orientation of the insert has an effect on expression. Create simulated data where orientation has no effect. In order to do that, include an orientation column, which has a 0 for one orientation and a 1 for the other. The orientation column can be thought of as encoding an activity difference from the "base" orientation.Here we construct an artificial example where there is no effect of orientation and fit it:
+
+```{r,echo=FALSE}
+design=data.frame(expression=c(rnorm(n = 10,mean = 1,sd=0.1),rnorm(n = 5,mean = 0.2,sd=0.1)),
+              E1=c(rep(1,10),rep(0,5)),orientation=c(rep(c(0,1),each=5),rep(0,5)))
+actFun=formula(~E1+E1:orientation)
+orientation.effects = enhancerDataObject(expressionData = design[,1],designInfo = 
+                                           design[,-1],actFun,errorModel="gaussian",linkFunction="exponential")
+orientation.effects=optimDE(orientation.effects,maxit=1500,refine=TRUE)
+```
+
+Then we can compute p-values for each term, if the orientation interaction term is significant, there are orientation effects.
+```{r,echo=2}
+orientation.param.stats=computeParamPvals(orientation.effects,maxit=2000,threads = 6)
+orientation.param.stats$pVals
 ```
 

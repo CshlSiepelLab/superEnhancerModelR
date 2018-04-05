@@ -32,7 +32,7 @@ methods::setMethod("optimDE", signature(x = "enhancerDataObject"), function(x,ma
   ## Setup control options
   opt$control=control
   opt$control$itermax=maxit
-  if(is.na(opt$control$NP)){opt$control$NP=20*length(opt$lower)}
+  if(is.null(opt$control$NP) || is.na(opt$control$NP)){opt$control$NP=20*length(opt$lower)}
   ## Setup parallel cluster
   if (threads > 1) {
     if(!requireNamespace("parallel", quietly = TRUE)){
