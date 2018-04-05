@@ -37,8 +37,8 @@ colnames(design) = c("E1","E2")
 design = as.data.frame(design)
 ## Create fake expression data
 expression = c(0,0.2,0.3,0.9)
-## Create activity function
-actFun = formula(~E1+E2+E1*E2)
+## Create activity function with independant activity and an interaction for the E1 and E2 enhancers
+actFun = formula(~E1+E2+E1:E2)
 edo = enhancerDataObject(expression,design,actFun)
 
 }

@@ -31,7 +31,7 @@ design = as.data.frame(design)
 ## Create fake expression data
 expression = c(0,0.2,0.3,0.9)
 ## Create activity function
-actFun = formula(~E1+E2+E1*E2)
+actFun = formula(~E1+E2+E1:E2)
 edo = enhancerDataObject(expression,design,actFun)
 edo=optimDE(edo,maxit=300)
 param.stats=computeParamPvals(edo,maxit=300)

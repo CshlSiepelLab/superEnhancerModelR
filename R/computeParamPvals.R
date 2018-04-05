@@ -62,7 +62,11 @@ methods::setMethod("computeParamPvals", signature(x = "enhancerDataObject"), fun
   model.ll=unlist(lapply(rModelList,ll))
   ## Create output table, D statistic is computed where the reduced model is the null
   out=data.frame(parameter=names(rModelList),ll=as.numeric(model.ll),D=2*(full.ll-model.ll))
-  out$p.val=dchisq(out$D,df=1)
+  if(any(out$D<0)){
+    warning("Some D-statistics are less than 0 indicating that the full model was not sufficiently well fit. Refit model using DEoptim with more iterations.")
+  }
+
+  out$p.val=pchisq(out$D,df=1,lower.tail=FALSE)
   row.names(out)=NULL
   return(list(pVals=out,reducedModels=rModelList))
 })

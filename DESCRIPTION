@@ -36,4 +36,5 @@ Collate:
     'predictExpression.R'
     'rngErrorParameters.R'
     'rngLinkParameters.R'
+    'summary.R'
 VignetteBuilder: knitr
