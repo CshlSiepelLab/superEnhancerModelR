@@ -2,11 +2,11 @@ methods::setGeneric("plotResiduals", function(x,...) {
   standardGeneric("plotResiduals")
 })
 
-#' Plots REsidual
+#' Plots Residual
 #'
 #' Plots model residuals
 #' @param x enhancerDataObject
-#' @name optimMod
+#' @name plotResiduals
 #' @include enhancerDataObject-class.R
 #' @examples
 #'
