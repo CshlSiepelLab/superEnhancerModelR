@@ -1,4 +1,7 @@
 # superEnhancerModelR
+
+[![Travis-CI Build Status](https://travis-ci.org/ndukler/superEnhancerModelR.svg?branch=master)](https://travis-ci.org/ndukler/superEnhancerModelR)
+
 Super-enhancer modeling package based off analysis from Dukler at al. (2017)
 
 Package can be installed with the following line of code:
