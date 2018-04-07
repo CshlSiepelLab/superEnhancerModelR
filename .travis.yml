@@ -6,4 +6,5 @@ cache: packages
 
 env:
   global:
-    - R_BUILD_ARGS="--no-build-vignettes --no-manual --no-resave-data"
+    - R_BUILD_ARGS="--no-build-vignettes --no-manual --no-resave-data --no-vignettes"
+    - R_CHECK_ARGS="--no-build-vignettes --no-manual --timings --no-vignettes"
