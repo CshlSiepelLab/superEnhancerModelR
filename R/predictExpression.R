@@ -8,8 +8,6 @@ methods::setGeneric("predictExpression", function(x,activity) {
 #' @param x enhancerDataObject
 #' @name predictExpression
 #' @include enhancerDataObject-class.R
-#' @examples
-#'
 #' @export
 methods::setMethod("predictExpression", signature(x = "enhancerDataObject"), function(x) {
   if(x@linkFunction$type=="additive"){
@@ -32,8 +30,6 @@ methods::setMethod("predictExpression", signature(x = "enhancerDataObject"), fun
 #' @param activity numeric vector of activity values
 #' @name predictExpression
 #' @include enhancerDataObject-class.R
-#' @examples
-#'
 #' @export
 methods::setMethod("predictExpression", signature = signature(x = "enhancerDataObject", activity="numeric"), function(x,activity) {
   if(x@linkFunction$type=="additive"){

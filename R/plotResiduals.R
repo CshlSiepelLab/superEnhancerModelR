@@ -8,8 +8,6 @@ methods::setGeneric("plotResiduals", function(x,...) {
 #' @param x enhancerDataObject
 #' @name plotResiduals
 #' @include enhancerDataObject-class.R
-#' @examples
-#'
 #' @export
 methods::setMethod("plotResiduals", signature(x = "enhancerDataObject"),plotResiduals <- function(x){
   ## Get names of active enhancers for each experiment

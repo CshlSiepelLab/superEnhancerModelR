@@ -8,8 +8,6 @@ methods::setGeneric("computeActivity", function(x,...) {
 #' @param x enhancerDataObject
 #' @name computeActivity
 #' @include enhancerDataObject-class.R
-#' @examples
-#'
 #' @export
 methods::setMethod("computeActivity", signature(x = "enhancerDataObject"), function(x) {
     return(as.numeric(x@designMatrix %*% as.matrix(x@linkFunction$value[1:ncol(x@designMatrix)])))

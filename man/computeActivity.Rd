@@ -9,6 +9,3 @@
 \description{
 Computes the value of the activity function for each row of the designMatrix
 }
-\examples{
-
-}

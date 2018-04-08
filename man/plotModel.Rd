@@ -9,6 +9,3 @@
 \description{
 Plots data and model prediction
 }
-\examples{
-
-}

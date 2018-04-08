@@ -16,7 +16,3 @@ Predicts expression from object activity values and link function
 
 Predicts expression from supplied activity values and link function
 }
-\examples{
-
-
-}
