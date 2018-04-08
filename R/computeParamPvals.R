@@ -20,17 +20,15 @@ methods::setGeneric("computeParamPvals", function(x,threads=1,...) {
 #' }
 #'
 #' @examples
-#' ## Create a test design matrix
-#' design = matrix(c(0,1,0,1,0,0,1,1),nrow=4)
-#' colnames(design) = c("E1","E2")
-#' design = as.data.frame(design)
+#' ## Create a test design data.frame
+#' design=expand.grid(E1=c(0,1),E2=c(0,1),E3=c(0,1))
 #' ## Create fake expression data
-#' expression = c(0,0.2,0.3,0.9)
+#' expression=c(0.001,0.2,0.3,0.7,0.4,0.8,0.6,1)*100
 #' ## Create activity function
-#' actFun = formula(~E1+E2+E1:E2)
+#' actFun=formula(~E1+E2+E3+E1:E2)
 #' edo = enhancerDataObject(expression,design,actFun)
-#' edo=optimDE(edo,maxit=300)
-#' param.stats=computeParamPvals(edo,maxit=300)
+#' edo=optimDE(edo,maxit=500)
+#' param.stats=computeParamPvals(edo,maxit=500)
 #' @export
 methods::setMethod("computeParamPvals", signature(x = "enhancerDataObject"), function(x,threads=1,...){
   full.ll=ll(x)

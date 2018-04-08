@@ -13,7 +13,10 @@ ByteCompile: true
 Imports:
   ggplot2,
   DEoptim,
-  reshape2
+  reshape2,
+  methods,
+  scales,
+  stats
 Suggests: testthat,
     knitr,
     rmarkdown,

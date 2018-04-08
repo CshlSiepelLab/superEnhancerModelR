@@ -8,8 +8,6 @@ methods::setGeneric("ll", function(x) {
 #' @param x enhancerDataObject
 #' @name ll
 #' @include enhancerDataObject-class.R
-#' @examples
-#'
 #' @export
 methods::setMethod("ll", signature(x = "enhancerDataObject"), function(x) {
   ## Predict expression levels from the model

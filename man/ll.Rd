@@ -9,6 +9,3 @@
 \description{
 Computes log-likelihood of the enhancerData model
 }
-\examples{
-
-}
