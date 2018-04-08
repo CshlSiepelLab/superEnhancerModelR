@@ -5,5 +5,5 @@
 #' @docType package
 #' @author Noah Dukler <ndukler@cshl.edu>
 #' @importFrom methods new
-#' @importFrom stats dlnorm dnorm formula model.matrix optim pchisq qlnorm qnorm rgamma rnorm runif update.formula
+#' @importFrom stats dlnorm qlnorm formula model.matrix optim pchisq dnorm qlnorm qnorm rgamma rnorm runif update.formula
 NULL
