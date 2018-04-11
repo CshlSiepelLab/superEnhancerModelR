@@ -103,6 +103,7 @@ print(param.stats$pVals)
 If you're measuring the effects of enhancers in a reporter assay, you may be interested to check if the orientation of the insert has an effect on expression. Create simulated data where orientation has no effect. In order to do that, include an orientation column, which has a 0 for one orientation and a 1 for the other. The orientation column can be thought of as encoding an activity difference from the "base" orientation.Here we construct an artificial example where there is no effect of orientation and fit it:
 
 ```{r}
+set.seed(123)
 design=data.frame(expression=c(rnorm(n = 10,mean = 100,sd=10),rnorm(n = 5,mean = 10,sd=1)),
               E1=c(rep(1,10),rep(0,5)),orientation=c(rep(c(0,1),each=5),rep(0,5)))
 actFun=formula(~E1+E1:orientation)
