@@ -78,6 +78,13 @@ enhancerDataObject <- function(expressionData,designInfo,activityFunction,errorM
     stop(paste("Invalid link function type. Valid types are:",paste(lfTypes,collapse = ", ")))
   if(length(activityParameterBounds)!=2)
     stop("activityParameterBounds must be a vector of length 2 with form c(lower,upper)")
+  ## Throw a warning if the the model selected is linear and the error model is log-normal and
+  ## set all the lower bounds of all parameters to 10^-3
+  if(linkFunction=="additive" && errorModel=="lognormal"){
+    warning("The additive link function can produce negative expression values which are are outside the support of the log-normal function.
+            Setting the lower bound of all coefficients to 10^-3 to prevent this.")
+    activityParameterBounds[1]=10^-3
+  }
   ## Initialize the parameters, biased towards the center of the range
   lfList=list(type=linkFunction, value=rngLinkParameters(nActVars,activityParameterBounds),
               constraints=list(lower=rep(activityParameterBounds[1],nActVars),upper=rep(activityParameterBounds[2],nActVars)))

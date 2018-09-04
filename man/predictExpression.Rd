@@ -2,7 +2,6 @@
 % Please edit documentation in R/predictExpression.R
 \name{predictExpression}
 \alias{predictExpression}
-\alias{predictExpression}
 \title{Predicts expression}
 \arguments{
 \item{x}{enhancerDataObject}
