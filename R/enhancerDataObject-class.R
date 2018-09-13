@@ -43,7 +43,7 @@ methods::setClass(Class = "enhancerDataObject",
 #'
 #' @export
 enhancerDataObject <- function(expressionData,designInfo,activityFunction,errorModel=c("lognormal","gaussian"),
-                               linkFunction=c("additive","exponential","logistic"),activityParameterBounds=c(-10^3,10^3),
+                               linkFunction=c("additive","exponential","logistic"),activityParameterBounds=c(-150,150),
                                errorParameterBounds=c(10^-3,10^3),scaleParameterBounds=c(10^-3,10^3)){
   ## Makes sure that activity function is a string
   if(!inherits(activityFunction,"formula"))
